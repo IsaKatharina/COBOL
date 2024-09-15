@@ -1,0 +1,183 @@
+PB0JC302
+
+****** ***************************** Top of Data ******************************
+000010                                                                         
+000100 ******************************************************************      
+000110 * NOM. DESCR: COGE DATOS DEL SISTEMA Y LOS MUESTRA               *      
+000120 *                                                                *      
+000130 * OBJECTIVE:  ESTE PROGRAMA COGE FECHA Y HORA DEL SISTEMA Y DATOS*      
+000131 *             DE LA SYSIN Y LOS MUESTRA                          *      
+000132 *             USO DE TABLA SECUENCIAL DE UNA DIMENSION Y UN SOLO *      
+000133 *             ELEMENTO POR CADA OCURRENCIA                       *      
+000150 *                                                                *      
+000160 * TYPE:       BATCH/REPORT                                       *      
+000170 *                                                                *      
+000180 * INPUTS:     DATOS DEL SISTEMA (HORA/FECHA)                     *      
+000181 *             DATOS DE LA SYSIN (TITULO Y DIAS DE LA SEMANA)     *      
+000190 *                                                                *      
+000191 * OUTPUTS:    INFORME                                            *      
+000192 *                                                                *      
+000200 ******************************************************************      
+000210                                                                         
+000220 ******************************************************************      
+000221 *                     IDENTIFICATION DIVISION                    *      
+000230 ******************************************************************      
+000240                                                                         
+000300  IDENTIFICATION DIVISION.                                               
+000310                                                                         
+000400  PROGRAM-ID.     PB0JC302.                                              
+000500  AUTHOR.         ISABEL KATHARINA LOERZER(ACCENTURE).                   
+000600  DATE-WRITTEN.   SEPTIEMBRE, 2024                                    
+000700  DATE-COMPILED.                                                      
+000800                                                                      
+000801 ******************************************************************   
+000802 *                     ENVIRONMENT DIVISION                       *   
+000803 ******************************************************************   
+000804  ENVIRONMENT DIVISION.                                               
+000805                                                                      
+000806  CONFIGURATION SECTION.                                              
+000807  SOURCE-COMPUTER.  ZEC12.                                            
+000808  OBJECT-COMPUTER. ZEC12.                                             
+000809  INPUT-OUTPUT SECTION.                                               
+000810  FILE-CONTROL.                                                       
+000811                                                                      
+000812 ******************************************************************   
+000813 *               DATA DIVISION                                    *   
+000814 ******************************************************************   
+000815  DATA DIVISION.                                                      
+000816                                                                      
+000817  FILE SECTION.                                                       
+000818                                                                      
+000819 ******************************************************************   
+000820 *               WORKING-STORE DIVISION                           *   
+000821 ******************************************************************   
+000823  WORKING-STORAGE SECTION.                                            
+000824  01  WS-WORK-AREA.                                                   
+000825                                                                      
+000826 ******************************************************************    
+000827 *                     IDENTIFICATION DIVISION                    *    
+000828 ******************************************************************    
+000829      05 TBL-DIA-SEMANA               OCCURS 7 TIMES                   
+000830                                      PIC X(10)   VALUE SPACES.        
+000831                                                                       
+000832 ******************************************************************    
+000833 *                     SCRATCH AREAS                              *    
+000834 ******************************************************************    
+000835      05  AUX-BUSCAR                  PIC X(10)   VALUE SPACES.        
+000836      05  AUX-TITULO                  PIC X(20)   VALUE SPACES.        
+000837      05  AUX-I                       PIC 9       VALUE ZEROS.         
+000838      05  AUX-BANDERA                 PIC 9       VALUE ZEROS.         
+000839      05  AUX-FECHA.                                                   
+000840          10  AUX-ANO                 PIC 9(4)    VALUE ZEROS.         
+000841          10  AUX-MES                 PIC 9(2)    VALUE ZEROS.         
+000842          10  AUX-DIA                 PIC 9(2)    VALUE ZEROS.         
+000843                                                                       
+000844      05  AUX-HOR.                                                     
+000845          10  AUX-HORA                PIC 9(2)    VALUE ZEROS.         
+000846          10  AUX-MINUTO              PIC 9(2)    VALUE ZEROS.         
+000847          10  AUX-SEGUNDO             PIC 9(2)    VALUE ZEROS.         
+000848          10  AUX-MILI                PIC 9(2)    VALUE ZEROS.         
+000849                                                                       
+000850 ******************************************************************    
+000851 *               PROCEDURE DIVISION                               *    
+000852 ******************************************************************    
+000853  PROCEDURE DIVISION.                                                  
+000854                                                                       
+000855 ******************************************************************    
+000856 *               1000-PRINCIPAL                                   *    
+000857 ******************************************************************    
+000858  1000-PRINCIPAL.                                                      
+000860      PERFORM 2000-INICIO                                              
+000900         THRU 2000-INICIO-EXIT                                         
+001000                                                                       
+001100      PERFORM 3000-PROCESO                                             
+001200         THRU 3000-PROCESO-EXIT                                        
+001201            7 TIMES                                                    
+001210                                                                       
+001300      PERFORM 8000-FIN                                                 
+001400         THRU 8000-FIN-EXIT                                            
+001500                                                                       
+001600      STOP RUN.                                                        
+001610                                                                       
+001700 ******************************************************************    
+001800 *               2000-INICIO                                      *    
+001900 ******************************************************************    
+002000  2000-INICIO.                                                         
+002010      DISPLAY 'COMIENZA EL PROGRAMA PB0JC302'.                         
+002011      ACCEPT AUX-FECHA FROM DATE YYYYMMDD                              
+002012      ACCEPT AUX-HOR   FROM TIME                                       
+002013      ACCEPT AUX-TITULO                                                
+002014                                                                       
+002015      DISPLAY 'HOY ES: ' AUX-ANO '-' AUX-MES '-' AUX-DIA                 
+002016      DISPLAY 'SON LAS: ' AUX-HORA ':' AUX-MINUTO ':' AUX-SEGUNDO        
+002017          ':' AUX-MILI.                                                  
+002018      DISPLAY AUX-TITULO                                                 
+002019      DISPLAY '================================='                        
+002020                                                                         
+002030      MOVE 1 TO AUX-I.                                                   
+002040                                                                         
+002100  2000-INICIO-EXIT.                                                      
+002200      EXIT.                                                              
+002210                                                                         
+002300 ******************************************************************      
+002400 *               3000-PROCESO                                     *      
+002500 ******************************************************************      
+002600  3000-PROCESO.                                                          
+002610      ACCEPT TBL-DIA-SEMANA(AUX-I)                                       
+002650                                                                         
+002660      ADD 1 TO AUX-I.                                                    
+002700  3000-PROCESO-EXIT.                                                     
+002800      EXIT.                                                              
+002810                                                                         
+002900 ******************************************************************      
+003000 *               8000-FIN                                         *      
+003100 ******************************************************************      
+003200  8000-FIN.                                                              
+003201      MOVE 1 TO AUX-I                                                    
+003202      PERFORM UNTIL AUX-I GREATER THAN 7                                 
+003203          DISPLAY TBL-DIA-SEMANA(AUX-I)                                
+003204          ADD 1 TO AUX-I                                               
+003205      END-PERFORM                                                      
+003206                                                                       
+003207      PERFORM 8100-BUSCAR                                              
+003208         THRU 8100-BUSCAR-EXIT                                         
+003209                                                                       
+003210      DISPLAY 'FIN DEL PROGRAMA PB0JC302'.                             
+003220                                                                       
+003300  8000-FIN-EXIT.                                                       
+003400      EXIT.                                                            
+003500                                                                       
+003600                                                                       
+003700 ******************************************************************    
+003800 *               8100-BUSCAR                                      *    
+003900 ******************************************************************    
+004000  8100-BUSCAR.                                                         
+004010      ACCEPT AUX-BUSCAR                                                
+004020                                                                       
+004030      PERFORM VARYING AUX-I FROM 1 BY 1 UNTIL AUX-I GREATER THAN 7     
+004040          IF  AUX-BUSCAR EQUAL TO TBL-DIA-SEMANA(AUX-I)                
+004060              DISPLAY 'ENCONTRADO ' AUX-BUSCAR ' POSICION ' AUX-I      
+004061              MOVE 1 TO AUX-BANDERA                                    
+004070          END-IF                                                       
+004091      END-PERFORM.                                                     
+004092                                                                       
+004093      IF AUX-BANDERA EQUAL ZEROS                                       
+004093      IF AUX-BANDERA EQUAL ZEROS                                         
+004094         DISPLAY 'NO ENCONTRADO ' AUX-BUSCAR                             
+004095      END-IF.                                                            
+004096                                                                         
+004097                                                                         
+004100  8100-BUSCAR-EXIT.                                                      
+004200      EXIT.                                                              
+****** **************************** Bottom of Data ****************************
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
